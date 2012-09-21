@@ -1,0 +1,9 @@
+@import "../slippy/src/slippy.css";
+
+/* Syntax highlighting styles */
+@import "../slippy/src/highlighter/shCore.css";
+@import "../slippy/src/highlighter/shThemeEclipse.css";
+
+@import "slippy-exo.css";
+
+
