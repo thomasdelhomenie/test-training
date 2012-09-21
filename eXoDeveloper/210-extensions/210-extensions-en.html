@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <!-- Slide meta data, remove/edit as you see fit -->
+        <title>eXo Developer - Extensions</title>
+        <!-- Slippy styles -->
+        <link type="text/css" rel="stylesheet" href="../../slippy-exo-common/slippy-all.css"/>
+        <!-- Slippy core file and dependencies -->
+        <script type="text/javascript" src="../../slippy-exo-common/slippy-all.js"></script>
+        <script type="text/javascript" src="../../slippy-exo-common/prefixfree.min.js"></script>
+    </head>
+    <body>
+        <div class="slide slide-chapter-transition" data-layout="chapter-transition">
+            <h1>Configuration and Extensions</h1>
+            <h2>Basic Customization</h2>
+        </div>
+
+        <div class="slide">
+			<br/>
+			<br/>
+            <div><span class="toc-entry-number">1</span><span class="toc-entry">Folder Structure</span></div>
+            <br/>
+            <br/>
+            <br/>
+            <div><span class="toc-entry-number">2</span><span class="toc-entry">Configuration</span></div>
+            <br/>
+            <br/>
+            <br/>
+            <div><span class="toc-entry-number">3</span><span class="toc-entry">Extension Concept</span></div>
+            <br/>
+            <br/>
+            <br/>
+            <div><span class="toc-entry-number">4</span><span class="toc-entry">Service Configuration</span></div>
+        </div>
+
+		<div class="slide slide-chapter-transition" data-layout="chapter-transition">
+            <h1>Folder Structure</h1>
+            <h2></h2>
+        </div>
+
+        <div class="slide">
+            <h1>Folder Overview</h1>
+            <br/>
+            <img src="images/folder_structure.png" style="float: right;"/>
+			<ul>
+				<li><b>Standard tomcat, but enhanced</b>
+					<ul>
+						<li>jars in tomcat/lib</li>
+						<li>wars in tomcat/webapps</li>
+						<li>declarations in conf/Catalina/</li>
+						<li>modified conf/server.xml</li>
+						<li>modified conf/jaas.config</li>
+						<li>start_eXo file</li>
+						<li>bin/gatein file</li>
+						<li>new gatein folder</li>
+					</ul>
+				</li>
+			</ul>
+        </div>
+
+        <div class="slide">
+            <h1>WebApps</h1>
+            <br/>
+            <div style="float: right;">
+				<img src="images/webapps.png"/>
+				<br/>
+				<br/>
+				<img src="images/context_files.png"/>
+            </div>
+            <ul>
+				<li>About 40 webapps</li>
+				<li>Several webapps per project</li>
+				<li>The webapps that are extensions are also declared in conf/Catalina/localhost/</li>
+            </ul>
+        </div>
+
+        <div class="slide">
+            <h1>Gatein Folder</h1>
+            <br/>
+            <img src="images/gatein_folder.png" style="float: right;"/>
+			<ul>
+				<li>Configuration</li>
+				<li>Data</li>
+				<li>Index</li>
+				<li>Logs</li>
+			</ul>
+        </div>
+
+        <div class="slide">
+            <h1>Data Folder</h1>
+            <br/>
+            <img src="images/data_folder.png" style="float: right;"/>
+			<ul>
+				<li><b>HSQL database</b>
+					<ul>
+						<li>Not for production</li>
+					</ul>
+				</li>
+				<li><b>Index</b>
+					<ul>
+						<li>Lucene index data</li>
+					</ul>
+				</li>
+				<li><b>Swap</b>
+					<ul>
+						<li>Temporary data</li>
+					</ul>
+				</li>
+				<li><b>Values</b>
+					<ul>
+						<li>Binary Data that is not stored in the database</li>
+					</ul>
+				</li>
+				<li><b>JTA</b>
+					<ul>
+						<li>Java Transaction API</li>
+					</ul>
+				</li>
+			</ul>
+        </div>
+
+        <div class="slide slide-chapter-transition" data-layout="chapter-transition">
+            <h1>Configuration</h1>
+            <h2>A short Introduction</h2>
+        </div>
+
+        <div class="slide">
+            <h1>External Configuration</h1>
+            <br/>
+			<ul>
+				<li>tomcat/gatein/conf/ and subfolders</li>
+				<li>Highest Priority</li>
+				<li>tomcat/gatein/conf/configuration.properties for SysAdmin properties</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/external_configuration.png"/></div>
+        </div>
+
+        <div class="slide">
+            <h1>Configuration Properties</h1>
+            <br/>
+			<ul>
+				<li>tomcat/gatein/conf/configuration.properties</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/configuration_properties_1.png"/></div>
+        </div>
+
+        <div class="slide">
+            <h1>Configuration Properties</h1>
+            <br/>
+			<ul>
+				<li><b>Boost eXo and augment the cache liveTimes !</b>
+					<ul>
+						<li>liveTimes are seconds: 600s = 10min</li>
+					</ul>
+				</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/configuration_properties_2.png"/></div>
+        </div>
+
+        <div class="slide">
+            <h1>Datasource</h1>
+            <br/>
+			<ul>
+				<li>The datasource is managed by the application server (tomcat)</li>
+				<li>eXo accesses the datasources using JNDI lookup</li>
+				<li>IDM : Identity Management (Organization: Users and Groups)</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/datasource_configuration_properties.png"/></div>
+        </div>
+        
+        <div class="slide">
+            <h1>Datasource</h1>
+            <br/>
+			<ul>
+				<li>In tomcat/conf/server.xml is the JNDI Resource configuration</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/datasource_server_xml.png"/></div>
+			<br/>
+			<ul>
+				<li><b>Remarks</b>
+					<ul>
+						<li>At the first startup the tables are created</li>
+						<li>The provided user has to have permissions for table creation</li>
+						<li>After the first startup the permission can be removed</li>
+					</ul>
+				</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/datasource_file_location.png"/></div>
+        </div>        
+
+        <div class="slide">
+            <h1>Controller</h1>
+            <br/>
+			<ul>
+				<li>New concept since eXo Platform 3.5</li>
+				<li>URL composition</li>
+				<li>"/portal/" cannot be altered or removed</li>
+				<li>tomcat/gatein/conf/controller.xml</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;">
+				<img src="images/controller_url.png"/>
+				<br/>
+				<br/>
+				<img src="images/controller_file_location.png"/>
+			</div>
+        </div>
+        
+        <div class="slide">
+            <h1>Controller</h1>
+			<br/>
+			<div style="text-align: center;">
+				<img src="images/controller_url.png"/>
+				<br/>
+				<br/>
+				<img src="images/controller_configuration.png"/>
+			</div>
+        </div>
+
+        <div class="slide">
+            <h1>Exercise: Configuration</h1>
+            <br/>
+            <ul>
+				<li><b>Controller</b>
+					<ul>
+						<li>Find where the language is defined in controller.xml</li>
+						<li>Test out French: http://localhost:8080/portal/fr/acme/</li>
+						<li>Test out group pages with a “lang” parameter</li>
+					</ul>
+				</li>
+				<li><b>Stop the server</b></li>
+				<li><b>Boost eXo Cache</b>
+					<ul>
+						<li>Open tomcat/gatein/conf/configuration.properties</li>
+						<li>Search for liveTime=600 and set them to 99000</li>
+					</ul>
+				</li>
+				<li><b>Start the server</b></li>
+				<li><b>Extra: Modify user the page pattern in controller.xml</b></li>
+				<li><b>Extra: If you have a database on hand create, modify tomcat/conf/server.xml in order to point to your database</b></li>
+			</ul>
+        </div>
+
+        <div class="slide slide-chapter-transition" data-layout="chapter-transition">
+            <h1>Extension Concept</h1>
+            <h2>A War + Activation Jar</h2>
+        </div>
+
+        <div class="slide">
+            <h1>Reason</h1>            
+			<ul>
+				<li><b>Support</b>
+					<ul>
+						<li>Avoids modifying source code in eXo deliveries</li>
+						<li>No support from eXo for modified code</li>
+					</ul>
+				</li>
+				<br />
+				<li><b>Advantages</b>
+					<ul>
+						<li>Easy migration to new version</li>
+						<li>Easy application of patches from eXo support</li>
+						<li>Clear limit between eXo’s code and customer’s code</li>
+						<li>Like a PlugIn that you re-apply after each migration</li>
+					</ul>
+				</li>
+			</ul>
+        </div>
+
+        <div class="slide">
+            <h1>Concept</h1>            
+			<ul>
+				<li><b>Allows to customize</b>
+					<ul>
+						<li>HTML, CSS, Javascript, JSP</li>
+						<li>Groovy Templates</li>
+						<li>Configuration</li>
+						<li>Internationalization</li>
+					</ul>
+				</li>
+				<br />
+				<li><b>A war file</b>
+					<ul>
+						<li>Contains all customization files</li>
+						<li>You can overwrite/replace files contained in other wars</li>
+						<li>Use the exact same path and name</li>
+					</ul>
+				</li>
+				<br />
+				<li><b>An activation jar</b>
+					<ul>
+						<li>Declares your war as eXo extension</li>
+					</ul>
+				</li>
+			</ul>
+        </div>
+        
+        <div class="slide">
+            <h1>War Project</h1>            
+			<ul>
+				<li><b>Customizations</b>
+					<ul>
+						<li>Put all your customizations in a war file</li>
+						<li>If you wish to override, use the exact same path and file name</li>
+					</ul>
+				</li>
+				<br />
+				<li><b>web.xml</b>
+					<ul>
+						<li>Define the name of your extension in the tag "display-name"</li>
+						<li>The name of the war file does NOT matter</li>
+						<li>Declare the listener PortalContainerConfigOwner</li>
+					</ul>
+				</li>
+				<br />
+			</ul>
+			<br/>
+            <pre class="brush: xml; gutter: false;">
+                <display-name>bike-extension</display-name>
+            </pre>
+            <pre class="brush: xml; gutter: false;" style="">
+                <listener-class>org.exoplatform.container.web.PortalContainerConfigOwner</listener-class>
+            </pre>
+        </div>
+        
+        <div class="slide">
+            <h1>Activation JAR</h1>            
+			<ul>
+				<li><b>configuration.xml</b>
+					<ul>
+						<li>The JAR contains exactly one file in the folder "/conf"</li>
+						<li>Name: configuration.xml</li>
+					</ul>
+				</li>
+				<img src="images/configuration_xml_location.png" style="float: right;top: -20px;margin-top: -4%;padding-right: 10%;"/>
+				<br />
+				<li><b>Activate the war</b>
+					<ul>
+						<li>Service: org.exoplatform.container.definition.PortalContainerConfig</li>
+						<li>Point to the name of the extension, defined in the web.xml tag "display-name"</li>
+					</ul>
+				</li>
+			</ul>
+            <pre class="brush: xml; gutter: false;">
+				&lt;object type="org.exoplatform.container.definition.PortalContainerDefinitionChange$AddDependencies">
+					<!-- The list of names of the dependencies to add -->
+					<field name="dependencies">
+						<collection type="java.util.ArrayList">
+							<value>
+								<string>bike-extension</string>
+							</value>
+						</collection>
+					</field>
+				&lt;/object>
+            </pre>
+        </div>
+
+        <div class="slide">
+            <h1>Deployment</h1>            
+			<ul>
+				<li><b>Tomcat</b>
+					<ul>
+						<li>Stop tomcat</li>
+						<li>Copy the jar to tomcat/lib</li>
+						<li>Copy the war to tomcat/webapps</li>
+					</ul>
+				</li>
+				<br />
+				<li><b>Tomcat loading order</b>
+					<ul>
+						<li>You extension must be load before the starter.war</li>
+						<li>To ensure this declare your extension</li>
+						<li>Declare the bike-extension in tomcat/conf/catalina/localhost/</li>
+					</ul>
+				</li>
+				<pre class="brush: xml; gutter: false;">
+					<Context path="/bike-extension" docBase="bike-extension" debug="0" reloadable="true" crossContext="true"></Context>
+				</pre>				
+			</ul>
+			<ul>
+				<li><b>JBoss</b>
+					<ul>
+						<li>In JBoss, create a ear containing the war and jar and deploy it</li>
+					</ul>
+				</li>
+			</ul>			
+        </div>
+
+        <div class="slide">
+            <h1>Test</h1>            
+			<ul>
+				<li><b>Testing</b>
+					<ul>
+						<li>After copying the war and jar you can test the extension</li>
+						<li>Restart tomcat</li>
+						<li>When re-deploying a modified war, stop tomcat, delete the war folder in tomcat/webapps and restart</li>
+					</ul>
+				</li>				
+			</ul>		
+        </div>
+
+        <div class="slide slide-chapter-transition" data-layout="chapter-transition">
+            <h1>Extension Exercise</h1>
+            <h2>A War + Activation Jar</h2>
+        </div>
+
+        <div class="slide">
+            <h1>Extension Exercise Overview</h1>            
+			<ul>
+				<li><b>In this exercise you will</b>
+					<ul>
+						<li>Modify the Admin Tool Bar</li>
+						<li>Alter the login interface</li>
+						<li>Add a language</li>
+					</ul>
+				</li>
+				<br/>
+				<li><b>Maven</b>
+					<ul>
+						<li>Go to the folder with pom.xml and execute "mvn clean install"</li>
+						<li>If you are online maven will download a lot of files</li>
+						<li>Alternatively you can use the provided repository</li>
+					</ul>
+				</li>
+			</ul>		
+        </div>
+
+        <div class="slide">
+            <h1>Admin Tool Bar Configuration</h1>            
+			<ul>
+				<li><b>Current Admin Tool Bar configuration:</b>
+					<ul>
+						<li>webapps\platform-extension\WEB-INF\conf\portal\portal\sharedlayout.xml</li>
+					</ul>
+				</li>
+				<div style="text-align: center;"><img src="images/admin_toolbar.png"/></div>
+				<li><b>Overriden in your extension:</b>
+					<ul>
+						<li>bike-extension\WEB-INF\conf\portal\portal\sharedlayout.xml</li>
+					</ul>
+				</li>
+				<li><b>In “sharedlayout.xml“:</b>
+					<ul>
+						<li>definition of several portlets</li>
+						<li>each entry in the Admin Tool Bar is a small portlet</li>
+						<li>The file configures the order of these entries in the tool bar</li>
+					</ul>
+				</li>
+				<div style="text-align: center;"><img src="images/shared_layout_file_location.png"/></div>
+			</ul>		
+        </div>
+        
+        <div class="slide">
+            <h1>Admin Tool Bar Configuration</h1>            
+			<div style="text-align: center;">
+				<br/>
+				<div style="width:13%;height:6%;border:4px solid #FF0000;position:absolute;left:32%;top:11.3%;"></div>
+				<img src="images/admin_toolbar.png"/>
+				<br/>
+				<br/>
+				<br/>
+				<img src="images/shared_layout_content_sites.png"/>
+			</div>
+        </div>
+        
+        <div class="slide">
+            <h1>Admin Tool Bar Configuration</h1>            
+			<div style="text-align: center;">
+				<br/>
+				<div style="width:15%;height:6%;border:4px solid #FF0000;position:absolute;left:48%;top:11.3%;"></div>
+				<img src="images/admin_toolbar.png"/>
+				<br/>
+				<br/>
+				<br/>
+				<img src="images/shared_layout_content_dashboard.png"/>
+			</div>
+        </div>
+
+        <div class="slide">
+            <h1>Maven Offline Repository</h1>            
+			<ul>
+				<li><b>Install Maven</b></li>
+				<li><b>Open a shell</b></li>
+				<li><b>Open the project file "…/exercises/custom-extension/1-project"</b></li>
+				<li><b>Execute "mvn clean" in the shell</b>
+					<ul>
+						<li>There will be errors (if you are offline),</li>
+						<li>If you are online, there will be downloads,</li>
+						<li>If you wish to work without downloads, you should stop the execution.</li>
+					</ul>
+				</li>
+				<li><b>Use the prepared Maven repository</b>
+					<ul>
+						<li>Copy maven-repository.zip to §HOME/$username/.m2/</li>
+						<li>Rename (or delete) the existing folder named "repository"</li>
+						<li>Unzip maven-repository.zip</li>
+						<li>Execute "mvn clean" in the shell</li>
+						<li>No more errors or downloads, because the delivered repository is used</li>
+					</ul>
+				</li>
+			</ul>		
+        </div>
+
+        <div class="slide">
+            <h1>Exercise: Custom Extension 1/3</h1>            
+			<ul>
+				<li><b>Open exercise …/custom-extension/</b></li>
+				<li><b>Copy the sharedlayout from the webapps/platform-extension</b>
+					<ul>
+						<li>exercises/custom-extension/1-project/war/src/main/webapp/WEB-INF/conf/portal/portalWEB-INF/conf/portal/portal/sharedlayout.xml</li>
+					</ul>
+				</li>
+				<li><b>Change the order of the portlets in the Admin Tool Bar</b>
+					<ul>
+						<li>Move the container around the dashboard portlet after the container of the edit portlet</li>
+						<li>.../exercises/custom-extension/1-project/war/src/main/webapp/WEB-INF/conf/portal/portal/sharedlayout.xml</li>
+					</ul>
+				</li>
+				<li><b>In order to be faster, integrate the next two customizations before compiling and starting eXo</b></li>
+			</ul>		
+        </div>
+
+        <div class="slide">
+            <h1>Exercise: Custom Extension 2/3</h1>            
+			<ul>
+				<li><b>Use the same project folder:</b>
+					<ul>
+						<li>.../custom-extension/1-project/war/src/main/webapp</li>
+					</ul>
+				</li>
+				<li><b>Create your own version of the jsp file</b>
+					<ul>
+						<li>Copy tomcat/webapps/platform-extension\login\jsp\login.jsp to your project (path: exercises/custom-extension/1-project/war/src/main/webapp/login/jsp)</li>
+						<li>Add “Welcome to the Bike Shop” to the jsp</li>
+					</ul>
+				</li>
+				<li><b>Remember: You have to copy login.jsp to the exact same path in your bike-extension</b></li>
+			</ul>		
+        </div>
+
+        <div class="slide">
+            <h1>Exercise: Custom Extension 3/3</h1>            
+			<ul>
+				<li><b>Copy</b>
+					<ul>
+						<li>.../tomcat/webapps/portal/WEB-INF/conf/common/locales-config.xml to exact .../exercises/custom-extension/1-project/war/src/main/webapp/WEB-INF/conf/common/locales-config.xml </li>
+					</ul>
+				</li>
+				<li><b>Add Afrikaans language (“af“) to locales-config.xml</b></li>
+			</ul>		
+        </div>
+
+        <div class="slide">
+            <h1>Exercise: Deploy and Test!</h1>            
+			<ul>
+				<li><b>Open .../exercises/custom-extension/1-project and execute "mvn clean install"</b></li>
+				<li><b>Copy</b>
+					<ul>
+						<li>Copy the compiled war (.../1-project/war/target/bike-extension.war) to the tomcat/webapps folder</li>
+						<li>Copy the compiled jar (.../1-project/config/target) file to the tomcat/lib folder</li>
+						<li>Declare the webapp in the tomcat/conf/catalina/localhost/ folder</li>
+					</ul>
+				</li>
+				<li><b>Start eXo</b></li>
+				<li><b>Test !</b>
+					<ul>
+						<li>At login you should see the modified login.jsp (http://localhost:8080/portal/private/acme/)</li>
+						<li>After login you should see modified Admin Tool Bar</li>
+						<li>Click on change language and you should see Afrikaans in the list</li>
+					</ul>
+				</li>
+			</ul>		
+        </div>
+
+        <div class="slide slide-chapter-transition" data-layout="chapter-transition">
+            <h1>Services</h1>
+        </div>
+
+        <div class="slide">
+            <h1>Introduction</h1>
+            <br/>
+			<ul>
+				<li>Services are java classes with a defined API</li>
+				<li>Services are deployed to the tomcat/lib folder</li>
+				<li>A service can have a default configuration
+					<ul>
+						<li>In the jar: /conf/configuration.xml</li>
+					</ul>
+				</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/services_jar_list.png"/></div>
+        </div> 
+
+        <div class="slide">
+            <h1>Service Keywords</h1>            
+			<ul>
+				<li><b>Inversion of Control</b></li>
+				<li><b>eXo uses the PicoContainer framework</b>
+					<ul>
+						<li>In PicoContainer services are referenced as "Components"</li>
+					</ul>
+				</li>
+				<li><b>eXo Container (based on a PicoContainer)</b>
+					<ul>
+						<li>Reads the configuration files and creates exactly one instance of each service (singleton pattern)</li>
+					</ul>
+				</li>
+				<li><b>The consumer of a service</b>
+					<ul>
+						<li>Does not create an instance (... new myService())</li>
+						<li>Calls the exoContainer to provide a reference to the requested service</li>
+					</ul>
+				</li>
+			</ul>		
+        </div>
+
+        <div class="slide">
+            <h1>Service Keywords</h1>            
+			<ul>
+				<li><b>Interface – Implementation</b>
+					<ul>
+						<li>A service is defined by the java interface</li>
+						<li>A service can have different implementations</li>
+						<li>Only one implementation can be used during runtime</li>
+						<li>The configuration files define which implementation is used</li>
+					</ul>
+				</li>
+				<li><b>Singleton</b>
+					<ul>
+						<li>Each service is created only once (new myService())</li>
+						<li>The exoContainer holds the reference to this instance</li>
+						<li>When requested, the consumer receives the reference</li>
+					</ul>
+				</li>
+			</ul>		
+        </div>
+
+        <div class="slide">
+            <h1>Service Configuration</h1>
+            <br/>
+			<ul>
+				<li><b>To declare a service to the eXo Container</b>
+					<ul>
+						<li>you must add an xml configuration to a specific place</li>
+						<li>jar, webapp or external configuration</li>
+						<li>eXoContainer reads the files named "configuration.xml"</li>
+						<li>These files contain very often imports of other configuration files</li>
+					</ul>
+				</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/services_configuration_imports.png"/></div>
+        </div> 
+
+        <div class="slide">
+            <h1>Configuration Priority</h1>            
+			<ul>
+				<li style="list-style-image: none;list-style-type: decimal;"><b>Default configuration inside of jar files</b>
+					<ul>
+						<li>/conf/portal/configuration.xml</li>
+					</ul>
+				</li>
+				<li style="list-style-image: none;list-style-type: decimal;"><b>Webapp configuration inside of war files</b>
+					<ul>
+						<li>/WEB-INF/conf/configuration.xml</li>
+					</ul>
+				</li>
+				<li style="list-style-image: none;list-style-type: decimal;"><b>External configuration</b>
+					<ul>
+						<li>/tomcat/gatein/conf/portal/portal/configuration.xml</li>
+					</ul>
+				</li>
+				<br/>
+				<br/>
+				<li>The external configuration overwrites everything</li>
+				<li>The configuration.xml files are read automatically</li>
+				<li>A configuration.xml can import other configuration files</li>
+			</ul>		
+        </div>
+
+        <div class="slide">
+            <h1>Service Configuration</h1>
+            <br/>
+			<ul>
+				<li><b>The registration of a service</b>
+					<ul>
+						<li>done with the &lt;component&gt; elements</li>
+						<li>You have to define a service, otherwise the service is not known by the eXoContainer</li>
+					</ul>
+				</li>
+				<li><b>Interface: defined by &lt;key&gt;</b></li>
+				<li><b>Implementation: defined by &lt;type&gt;</b></li>
+				<br/>
+				<li><b>Example</b>
+					<ul>
+						<li>tomcat/webapps/portal/web-inf/conf/mail/portal-mail-configuration.xml</li>
+					</ul>
+				</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/services_configuration_key_type.png"/></div>
+        </div> 
+
+        <div class="slide">
+            <h1>Service Reference</h1>
+            <br/>
+			<ul>
+				<li><b>A service is always referenced by its interface (&lt;key&gt;), not by the implementation (&lt;type&gt;)</b></li>
+				<br/>
+				<li><b>Example</b>
+					<ul>
+						<li>tomcat/webapps/portal/web-inf/conf/mail/portal-mail-configuration.xml</li>
+					</ul>
+				</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/services_configuration_key_type.png"/></div>
+        </div> 
+
+        <div class="slide">
+            <h1>Configuration Parameters</h1>
+            <br/>
+			<ul>
+				<li><b>A service can be configured using parameters</b></li>
+				<li><b>Each services defines the parameters it interpretes</b></li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/services_configuration_params.png"/></div>
+        </div> 
+
+        <div class="slide">
+            <h1>Complex Parameters</h1>
+            <br/>
+			<div style="text-align: center;"><img src="images/services_configuration_complex_params.png"/></div>
+        </div> 
+
+        <div class="slide">
+            <h1>Configuration Plugin</h1>
+            <br/>
+			<ul>
+				<li><b>Services can provide plugins</b>
+					<ul>
+						<li>Methods of the service</li>
+						<li>Allows to add configuration without repeating the other configuration</li>
+					</ul>
+				</li>
+			</ul>
+			<br/>
+			<div style="text-align: center;"><img src="images/services_configuration_plugin.png"/></div>
+        </div>
+
+        <div class="slide slide-chapter-transition" data-layout="chapter-transition">
+            <h1>Configuration Profiles</h1>
+        </div>
+
+        <div class="slide">
+            <h1>Configuration Profiles</h1>
+            <br/>
+			<ul>
+				<li><b>Each profile activates certain configurations</b></li>
+				<li><b>Java System Variable exo.profiles</b></li>
+				<li><b>Example in start_eXo.sh:</b></li>
+				<div style="text-align: center;"><img src="images/profiles_env.png"/></div>
+				<li><b>Several profiles can be activated at the same time using a comma</b></li>
+			</ul>
+        </div>
+
+        <div class="slide">
+            <h1>Configuration Profiles</h1>
+            <br/>
+			<ul>
+				<li><b>Any part of the configuration can be added to a profile</b></li>
+				<li><b>Profile-dependent configuration is only taken into account if the profile is used</b></li>
+				<li><b>A profile can depend on a list of profiles. In this case, the use of any profile activates the configuration</b></li>
+				<br/>
+				<div style="text-align: center;"><img src="images/profiles_configuration.png"/></div>
+			</ul>
+        </div>
+
+        <div class="slide slide-chapter-transition" data-layout="chapter-transition">
+            <h1>Configuration and Extensions</h1>
+            <h2>Basic Customization</h2>
+        </div>
+    </body>
+</html>
